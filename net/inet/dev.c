@@ -1421,15 +1421,10 @@ int dev_ioctl(unsigned int cmd, void *arg)
  
 void dev_init(void)
 {
+    // 定义在netdevice.h文件中
 	struct device *dev, *dev2;
 
-	/*
-	 *	Add the devices.
-	 *	If the call to dev->init fails, the dev is removed
-	 *	from the chain disconnecting the device until the
-	 *	next reboot.
-	 */
-	 
+	// 在Space.c中struct device *dev_base = &loopback_dev;
 	dev2 = NULL;
 	for (dev = dev_base; dev != NULL; dev=dev->next) 
 	{

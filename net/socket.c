@@ -1329,6 +1329,8 @@ int sock_unregister(int family)
 
 void proto_init(void)
 {
+    // protocols定义在net/protocols.c中
+    // struct net_proto protocols[] = {
 	extern struct net_proto protocols[];	/* Network protocols */
 	struct net_proto *pro;
 
@@ -1336,41 +1338,39 @@ void proto_init(void)
 	pro = protocols;
 	while (pro->name != NULL) 
 	{
+	    // 调用数组中每个协议的初始化函数
 		(*pro->init_func)(pro);
 		pro++;
 	}
 	/* We're all done... */
 }
 
-// ����ģ���ʼ��
 void sock_init(void)
 {
 	int i;
 
 	printk("Swansea University Computer Society NET3.019\n");
-	/*
-	* ��ʼ��Э���壬ȫ�ֽṹ�� pops ��Ĭ��֧������16��Э���壻
-	* ��ҪΪЭ�����š�Э���������
-	*/
+
+    // 参考socket.h中AF_开头的宏定义就是地址族
+    /*
+     * 初始化协议族，全局结构体 pops ；默认支持配置16个协议族；
+     * 主要为协议族编号、协议操作方法
+     */
 	for (i = 0; i < NPROTO; ++i) pops[i] = NULL;
 
 	/*
 	 *	Initialize the protocols module. 
 	 */
-
 	proto_init();
 
 #ifdef CONFIG_NET
-	/* 
-	 *	Initialize the DEV module. 
-	 */
-
+    // void dev_init(void)
+    // 初始化系统中所有网络设备，它遍历dev_base链表中的每个设备，调用设备的初始化函数。如果初始化失败，设备会从链表中移除。
 	dev_init();
   
 	/*
 	 *	And the bottom half handler 
 	 */
-
 	bh_base[NET_BH].routine= net_bh;
 	enable_bh(NET_BH);
 #endif  

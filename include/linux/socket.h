@@ -26,13 +26,14 @@ struct linger {
 					/* other similar things on the	*/
 					/* user level.			*/
 
-/* Supported address families. */
-#define AF_UNSPEC	0
-#define AF_UNIX		1
-#define AF_INET		2
-#define AF_AX25		3
-#define AF_IPX		4
-#define AF_APPLETALK	5
+/* 协议族 */
+// 使用最多的是AF_UNIX和AF_INET
+#define AF_UNSPEC	0 // 未指定协议族
+#define AF_UNIX		1 // Unix域套接字：用于同一台机器上进程间通信
+#define AF_INET		2 // Internet协议族（TCP/IP）：用于TCP/IP网络通信
+#define AF_AX25		3 // AX.25协议族：Novell NetWare网络协议，主要用于局域网环境
+#define AF_IPX		4 // IPX协议族：业余无线电分组通信协议
+#define AF_APPLETALK	5 // AppleTalk协议族：苹果公司的网络协议
 
 #define AF_MAX		8	/* For now.. */
 

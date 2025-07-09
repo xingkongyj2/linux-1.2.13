@@ -309,7 +309,17 @@ static struct device ppp0_dev = {
 #   define	NEXT_DEV	(&dummy_dev)
 #endif
 
+/*负责设置回环设备的具体参数：loopback.c
+主要配置包括：
+- MTU: 设为 2000 字节
+- 设备类型: 配置为以太网类型 (ARPHRD_ETHER)
+- IP 地址: 设为 127.0.0.1 (localhost)
+- 网络掩码: 255.0.0.0
+- 设备标志: IFF_LOOPBACK | IFF_BROADCAST*/
 extern int loopback_init(struct device *dev);
+
+// 回环网络设备，它是一个软件实现的虚拟网络接口
+// 申请一个device结构，并且给前几个字段赋值
 struct device loopback_dev = {
 	"lo",			/* Software Loopback interface		*/
 	0x0,			/* recv memory end			*/
@@ -323,4 +333,6 @@ struct device loopback_dev = {
 	loopback_init		/* loopback_init should set up the rest	*/
 };
 
+// dev_base初始化只有一个内容
+// loopback_dev是网络子系统中的一个关键组件，它不仅提供了本地回环通信的功能，还作为设备链表的起始点，确保系统始终有至少一个可用的网络设备。
 struct device *dev_base = &loopback_dev;

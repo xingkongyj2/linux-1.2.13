@@ -94,6 +94,7 @@ loopback_init(struct device *dev)
 
   dev->mtu		= 2000;			/* MTU			*/
   dev->tbusy		= 0;
+  // 回环设备的数据传输通过loopback_xmit函数实现
   dev->hard_start_xmit	= loopback_xmit;
   dev->open		= NULL;
 #if 1
